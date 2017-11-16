@@ -1,0 +1,86 @@
+			OLD								    NEW
+	 ASP.Net MembershipProvider				ASP.Net Identity
+	 Roles based Authentication				Claims based Authentication
+
+
+Before Learning Identinty You need to have knoweledge about 
+a) Forms Authentication : Regular ASP.Net 2.0 forms Authentication
+b) Membership Provider and Roles Provider : https://msdn.microsoft.com/en-us/library/yh26yfzy.aspx
+
+ASP.NET Membership Vs ASP.Net Identity
+1) https://forums.asp.net/t/2059226.aspx?What+is+the+difference+between+identity+provider+and+membership+provider
+
+2)https://brockallen.com/2013/10/20/the-good-the-bad-and-the-ugly-of-asp-net-identity/#ugly
+
+https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity
+
+
+Role Provider Vs Claim Based authentication
+claims are superset of roles, roles just give a boolean value validating if a particular user exists in a database or not but Claims gets more information like email, phone,dob etc which is user personal information apart from roles information.
+
+Identity 2.0:
+http://johnatten.com/2014/04/20/asp-net-mvc-and-identity-2-0-understanding-the-basics/
+
+https://brockallen.com/2013/10/22/announcing-thinktecture-embeddedsts-a-simple-local-sts-for-asp-net-applications/;
+
+ What is the difference between identity provider and membership provider
+ASPNET Membership and ASPNET Identity are the two different generations for authentication and authorization for Asp.Net applications. Membership provider is the earliest version and later Microsoft introduces AspNet Identity in MVC 5. AspNet membership provider gives you role based security for authentication and authorization for the applications and it manages a database for the users, roles and permissions. By default you will get some built in support but there are scopes for customizations.
+
+Please refer to this blog for more about membership provider: https://msdn.microsoft.com/en-us/library/ms731049(v=vs.110).aspx
+
+AspNet Identity replaces membership provider for authentication and authorization for the MVC applications where it introduces a middleware (OWIN) that handles extensive middleware tasks to support a wide range of external providers to be useful in the application.
+
+Please see more details at: http://www.asp.net/identity
+
+Choice between membership provider and aspnet identity will depend what you would like to do, choice of identity over aspnet membeship will allow you some built-in components which are not present in the membership provider. 
+
+Please refer this article for details: http://brockallen.com/2013/10/20/the-good-the-bad-and-the-ugly-of-asp-net-identity/
+
+Membership only works on Ms Sql. Identity is more flexible. It works with other databases. I used it on Oracle.
+
+Asp.Net Identity - A Beginner Guide?
+http://www.codedigest.com/posts/6/introduction-to-aspnet-identity
+
+What is Owin?
+https://coding.abel.nu/2014/05/whats-this-owin-stuff-about/
+http://www.codedigest.com/posts/1/what-is-owin-a-beginners-guide
+http://www.codedigest.com/posts/2/creating-our-first-owin-based-application
+
+
+
+How is ASP.NET dependent on IIS (System.Web.dll) ??
+https://msdn.microsoft.com/en-us/library/ff647070.aspx
+IIS Authentication
+ASP.NET authentication is a two-step process. First, Internet Information Services (IIS) authenticates the user and creates a Windows token to represent the user. IIS determines the authentication mode that it should use for a particular application by looking at IIS metabase settings. If IIS is configured to use anonymous authentication, a token for the IUSR_MACHINE account is generated and used to represent the anonymous user. IIS-then passes the token to ASP.NET.
+Second, ASP.NET performs its own authentication. The authentication method used is specified by the mode attribute of the authentication element. The following authentication configuration specifies that ASP.NET uses the FormsAuthenticationModule class:
+<authentication mode="Forms" />
+  
+Note   Because forms authentication does not rely on IIS authentication, you should configure anonymous access for your application in IIS if you intend to use forms authentication in your ASP.NET application.
+
+https://docs.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-security/introduction/an-overview-of-forms-authentication-cs
+
+What does System.Web.dll contain ??
+The System.Web namespaces contain types that enable browser/server communication. Child namespaces include types that support ASP.NET forms authentication, application services, data caching on the server, ASP.NET application configuration, dynamic data, HTTP handlers, JSON serialization, incorporating AJAX functionality into ASP.NET, ASP.NET security, and web services.
+https://msdn.microsoft.com/en-us/library/gg145018(v=vs.110).aspx
+
+Key Points about Owin :
+a) OWIN stands for Open Web Interface for .Net. It is a community-owned specification (or standard) and not a framework of its own
+b) OWIN defines an interface specification to de-couple webserver and application using a simple delegate structure commonly called as Application Delegate or AppFunc designed for the interaction between webserver and application with less dependency. Its signature looks like :
+
+Syntax : Func<IDictionary<string, object>, Task>
+
+c) Ownin Spec : http://owin.org/html/spec/owin-1.0.1.html
+
+d) Owin’s AppFunc delegate implementation in our application is commonly called as Startup class. The same AppFunc is implemented by Katana , which is microsoft implemenation . We use Katana in our applications. 
+
+The major components of Owin are:
+
+Server: The HTTP server that directly communicates with the client and then uses OWIN semantics to process requests. Servers may require an adapter layer that converts to OWIN semantics
+WebFramework: A self-contained component on top of OWIN exposing its own object model or API that applications may use to facilitate request processing. Web Frameworks may require an adapter layer that converts from OWIN semantics
+WebApplication: A specific application, possibly built on top of a Web Framework, which is run using OWIN compatible Servers
+Middleware: Pass through components that form a pipeline between a server and application to inspect, route, or modify request and response messages for a specific purpose.
+Host:The process an application and server execute inside of, primarily responsible for application startup. Some Servers are also Hosts
+
+
+
+
